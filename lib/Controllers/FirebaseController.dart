@@ -73,11 +73,4 @@ class FirebaseController extends GetxController {
     await _auth.signOut().then((value) => Get.offAll(HomePage()));
   }
 
-// void sendpasswordresetemail(String email) async{
-//   await _auth.sendPasswordResetEmail(email: email).then((value) {
-//     Get.offAll(LoginPage());
-//     Get.snackbar("Password Reset email link is been sent", "Success");
-//   }).catchError((onError)=> Get.snackbar("Error In Email Reset", onError.message) );
-// }
-
 }
