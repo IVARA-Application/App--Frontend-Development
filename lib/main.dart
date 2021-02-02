@@ -51,8 +51,12 @@ import 'package:ivara_app/students_app/drawer_part/Healmymind/schedule_a_call.da
 import 'package:ivara_app/students_app/drawer_part/Student_abroad/Courses_available.dart';
 import 'package:ivara_app/students_app/drawer_part/Student_abroad/Scholarships.dart';
 import 'package:ivara_app/students_app/drawer_part/Student_abroad/news_and_blogs.dart';
-
-void main() {
+import 'package:get/get.dart';
+import 'Binding.dart';
+import 'package:firebase_core/firebase_core.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -88,54 +92,52 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => HomeModel(),
-      child: MaterialApp(
-        title: 'Ivara App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: home==null?SplashScreen(
-      seconds: 5,
-      navigateAfterSeconds: HomePage(),
-      title: Text(
-        'IVentors Initiatives',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0,color:Colors.white),
+    return GetMaterialApp(
+      initialBinding: Binding(),
+      title: 'Ivara App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      image: Image.asset(
-          './assets/logo_small.png'),
-      photoSize: 100.0,
-      backgroundColor: Color(0xFF076FA0),
-      loaderColor: Colors.white,
+      debugShowCheckedModeBanner: false,
+      home: home==null?SplashScreen(
+    seconds: 5,
+    navigateAfterSeconds: HomePage(),
+    title: Text(
+      'IVentors Initiatives',
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0,color:Colors.white),
+    ),
+    image: Image.asset(
+        './assets/logo_small.png'),
+    photoSize: 100.0,
+    backgroundColor: Color(0xFF076FA0),
+    loaderColor: Colors.white,
     ):home,
-        routes: {
-            HomePage.id: (context) => HomePage(),
-            LoginPage.id: (context) => LoginPage(),
-            SignUpPage.id: (context) => SignUpPage(),
-            NotificationPage.id: (context) => NotificationPage(),
-            AttendancePage.id: (context) => AttendancePage(),
-            AcademicsPage.id: (context) => AcademicsPage(),
-            TestPage.id: (context) => TestPage(),
-            DashboardPage.id: (context) => DashboardPage(),
-            SubjectChatPage.id: (context) => SubjectChatPage(),
-            StudentHomePage.id: (context) => StudentHomePage(),
-            TeacherDashboard.id: (context) => TeacherDashboard(),
-            EnterMarks.id: (context) => EnterMarks(),
-            SubjectMarks.id: (context) => SubjectMarks(),
-            Attendance.id: (context) => Attendance(),
-            DoubtPortal.id: (context) => DoubtPortal(),
-            TeacherProfile.id: (context) => TeacherProfile(),
-            TeacherClassroom.id: (context) => TeacherClassroom(),
-            TeacherAcademicsPage.id: (context) => TeacherAcademicsPage(),
-            StudentAttendanceViewPage.id: (context) =>
-                StudentAttendanceViewPage(),
-            AttendanceDetail.id: (context) => AttendanceDetail(),
-            ParentConnect.id: (context) => ParentConnect(),
-            HomeView.id: (context) => HomeView(),
-          }
-      ),
+      routes: {
+          HomePage.id: (context) => HomePage(),
+          LoginPage.id: (context) => LoginPage(),
+          SignUpPage.id: (context) => SignUpPage(),
+          NotificationPage.id: (context) => NotificationPage(),
+          AttendancePage.id: (context) => AttendancePage(),
+          AcademicsPage.id: (context) => AcademicsPage(),
+          TestPage.id: (context) => TestPage(),
+          DashboardPage.id: (context) => DashboardPage(),
+          SubjectChatPage.id: (context) => SubjectChatPage(),
+          StudentHomePage.id: (context) => StudentHomePage(),
+          TeacherDashboard.id: (context) => TeacherDashboard(),
+          EnterMarks.id: (context) => EnterMarks(),
+          SubjectMarks.id: (context) => SubjectMarks(),
+          Attendance.id: (context) => Attendance(),
+          DoubtPortal.id: (context) => DoubtPortal(),
+          TeacherProfile.id: (context) => TeacherProfile(),
+          TeacherClassroom.id: (context) => TeacherClassroom(),
+          TeacherAcademicsPage.id: (context) => TeacherAcademicsPage(),
+          StudentAttendanceViewPage.id: (context) =>
+              StudentAttendanceViewPage(),
+          AttendanceDetail.id: (context) => AttendanceDetail(),
+          ParentConnect.id: (context) => ParentConnect(),
+          HomeView.id: (context) => HomeView(),
+        }
     );
   }
 }
