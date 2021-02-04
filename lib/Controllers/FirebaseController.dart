@@ -10,8 +10,8 @@ import 'package:ivara_app/teachers_app/dashboard.dart';
 class FirebaseController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
   Rx<User> _firebaseUser = Rx<User>();
-
   String get user => _firebaseUser.value?.email;
+  Rx<User> get firebaseUser => _firebaseUser;
   @override
   void onInit() {
     _firebaseUser.bindStream(_auth.authStateChanges());
@@ -51,8 +51,7 @@ class FirebaseController extends GetxController {
     );
   }
 
-  void login(String email, String password,String role) async {
-
+  void login(String email, String password, String role) async {
     Widget next_page(String role) {
       if (role == 'Parent') {
         return ParentsHomePage();
@@ -62,6 +61,7 @@ class FirebaseController extends GetxController {
         return TeacherDashboard();
       }
     }
+
     await _auth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) => Get.offAll(next_page(role)))
@@ -72,5 +72,4 @@ class FirebaseController extends GetxController {
   void signout() async {
     await _auth.signOut().then((value) => Get.offAll(HomePage()));
   }
-
 }

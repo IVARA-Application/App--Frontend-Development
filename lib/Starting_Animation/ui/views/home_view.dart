@@ -81,8 +81,9 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     super.initState();
 
     pageController = PageController();
-    animationController =
-        AnimationController(duration: Duration(milliseconds: 750), vsync: this);
+    animationController = AnimationController(
+      duration: Duration(milliseconds: 750),
+    );
 
     startAnimation = CurvedAnimation(
       parent: animationController,

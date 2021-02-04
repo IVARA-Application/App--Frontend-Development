@@ -27,7 +27,11 @@ class SubjectCardWidget extends StatelessWidget {
         right: screenWidth * 0.06,
       ),
       child: GestureDetector(
-        onTap: () => {Navigator.pushNamed(context, SubjectChatPage.id)},
+        onTap: () => {
+          Navigator.pushNamed(context, SubjectChatPage.id, arguments: {
+            'subjectName': subjectCard.subjectName,
+          })
+        },
         child: Container(
             width: screenWidth,
             height: 145,
@@ -45,7 +49,7 @@ class SubjectCardWidget extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top:screenHeight*0.075),
+                  padding: EdgeInsets.only(top: screenHeight * 0.075),
                   child: Text(
                     subjectCard.subjectName,
                     style: TextStyle(fontSize: 28, color: Colors.white),
