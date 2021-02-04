@@ -54,6 +54,9 @@ import 'package:ivara_app/students_app/drawer_part/Student_abroad/news_and_blogs
 import 'package:get/get.dart';
 import 'Binding.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'students_app/student_homepage.dart';
+import 'students_app/student_homepage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -117,6 +120,7 @@ class _MyAppState extends State<MyApp> {
           HomePage.id: (context) => HomePage(),
           LoginPage.id: (context) => LoginPage(),
           SignUpPage.id: (context) => SignUpPage(),
+          StudentHomePage.id:(context)=>StudentHomePage(),
           NotificationPage.id: (context) => NotificationPage(),
           AttendancePage.id: (context) => AttendancePage(),
           AcademicsPage.id: (context) => AcademicsPage(),
@@ -132,8 +136,7 @@ class _MyAppState extends State<MyApp> {
           TeacherProfile.id: (context) => TeacherProfile(),
           TeacherClassroom.id: (context) => TeacherClassroom(),
           TeacherAcademicsPage.id: (context) => TeacherAcademicsPage(),
-          StudentAttendanceViewPage.id: (context) =>
-              StudentAttendanceViewPage(),
+          StudentAttendanceViewPage.id: (context) => StudentAttendanceViewPage(),
           AttendanceDetail.id: (context) => AttendanceDetail(),
           ParentConnect.id: (context) => ParentConnect(),
           HomeView.id: (context) => HomeView(),

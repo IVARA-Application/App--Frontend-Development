@@ -27,16 +27,22 @@ class MyDrawer extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth*0.0
+                        padding: EdgeInsets.only(
+                          top: screenHeight*0.0
                         ),
                         child: Container(
-                          height: 200,
-                          child: Image.asset('assets/icon/logo_small.png',width: screenWidth),
+                          height: screenHeight*0.29,
+                          width: screenHeight*0.29,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/icon/logo_small.png'),
+                              fit: BoxFit.fill
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(
