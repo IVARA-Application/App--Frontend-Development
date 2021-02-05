@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:ivara_app/useful_components/text_field.dart';
 
+class RoundedPasswordField extends StatefulWidget{
+  @override
+  RoundedPasswordFieldState createState() => RoundedPasswordFieldState();
+}
 
-class RoundedPasswordField extends StatelessWidget {
-  final ValueChanged<String> onChanged;
-  const RoundedPasswordField({
-    Key key,
-    this.onChanged,
-  }) : super(key: key);
+
+
+class RoundedPasswordFieldState extends State<RoundedPasswordField> {
+
+  // final ValueChanged<String> onChanged;
+  bool passwordstate = true;
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
-        obscureText: true,
-        onChanged: onChanged,
+        obscureText: passwordstate,
+        //     onChanged: onChanged,
         cursorColor: Colors.blue,
         decoration: InputDecoration(
           hintText: "Enter Your Password",
@@ -22,10 +26,22 @@ class RoundedPasswordField extends StatelessWidget {
             Icons.lock,
             color: Colors.black,
           ),
-          suffixIcon: Icon(
+          //   suffixIcon: passwordstate? Icon(Icons.visibility_off): Icon(Icons.visibility),
+          suffixIcon: IconButton(
+              icon: passwordstate ? Icon(Icons.visibility_off) : Icon(
+                  Icons.visibility),
+              onPressed: () =>
+              {
+                setState(() {
+                  passwordstate = !passwordstate;
+                }
+                )
+              }
+          ),
+          /*  suffixIcon: Icon(
             Icons.visibility,
             color: Colors.black,
-          ),
+          ), */
           border: InputBorder.none,
         ),
       ),
