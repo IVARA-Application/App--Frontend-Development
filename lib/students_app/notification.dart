@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:intl/intl.dart';
 
 class NotificationPage extends StatefulWidget {
   static String id = 'NotificationPage';
@@ -9,6 +11,52 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
   int index = 0;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+    print('on background $message');
+  }
+
+  List<Map> messageList = [
+    {'date': '12-12-2020', 'time': '23:27', 'title': 'abc', 'body': 'hghj'}
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        setState(() {
+          final notification = message['notification'];
+          Map data = {};
+          final DateTime now = DateTime.now();
+          data['date'] = '${now.day}-${now.month}-${now.year}';
+          data['time'] = '${now.hour}:${now.minute}';
+          data['body'] = notification['body'];
+          data['title'] = notification['title'];
+          messageList.insert(0, data);
+        });
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -26,13 +74,17 @@ class _NotificationPageState extends State<NotificationPage> {
       body: SingleChildScrollView(
         child: SafeArea(
             child: Column(
-          children: <Widget>[
-            SizedBox(height: 20),
-            NotificationCard(screenWidth: screenWidth, screenHeight: screenHeight, date: '1-1-2021',time: '09:29 AM', name: 'Aman Sharma',),
-            NotificationCard(screenWidth: screenWidth, screenHeight: screenHeight, date: '1-1-2021',time: '09:29 AM', name: 'Aman Sharma',),
-            NotificationCard(screenWidth: screenWidth, screenHeight: screenHeight, date: '1-1-2021',time: '09:29 AM', name: 'Aman Sharma',),
-          ],
-        )),
+                children: messageList
+                    .map(
+                      (data) => NotificationCard(
+                        screenWidth: screenWidth,
+                        screenHeight: screenHeight,
+                        date: data['date'],
+                        time: data['time'],
+                        name: data['title'],
+                      ),
+                    )
+                    .toList())),
       ),
     );
   }
