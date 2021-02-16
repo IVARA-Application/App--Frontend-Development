@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:condition/condition.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'package:ivara_app/Controllers/FirebaseController.dart';
 import 'package:ivara_app/students_app/dashboard/imageView.dart';
@@ -15,6 +17,8 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:ivara_app/students_app/layout/sidebar.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image/image.dart' as Im;
+import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SubjectChatPage extends StatefulWidget {
   static String id = 'SubjectChatPage';
@@ -151,14 +155,19 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
                                               const EdgeInsets.only(left: 15),
                                           child: TextFormField(
                                             controller: messageController,
+                                            focusNode: FocusNode(
+                                              canRequestFocus: false,
+                                            ),
                                             keyboardType:
                                                 TextInputType.multiline,
                                             maxLines: null,
                                             decoration: InputDecoration(
-                                                hintText: "Type Something...",
-                                                hintStyle: TextStyle(
-                                                    color: Color(0xff0772a0)),
-                                                border: InputBorder.none),
+                                              hintText: "Type Something...",
+                                              hintStyle: TextStyle(
+                                                color: Color(0xff0772a0),
+                                              ),
+                                              border: InputBorder.none,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -178,8 +187,14 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
                                       IconButton(
                                         icon: Icon(Icons.attach_file,
                                             color: Color(0xff0772a0)),
-                                        onPressed: () {
-                                          _pickImage(ImageSource.gallery);
+                                        onPressed: () async {
+                                          sendFiles(
+                                              arguments,
+                                              controller.firebaseUser.value.uid
+                                                  .toString(),
+                                              controller
+                                                  .firebaseUser.value.email
+                                                  .toString());
                                         },
                                       )
                                     ],
@@ -329,10 +344,70 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
           'type': "image",
           'imageUrl': downloadUrl,
           'message': "",
-          'senderName':displayName
+          'senderName': displayName
         },
       ).then((value) {});
     }
+  }
+
+  void sendFiles(arguments, String userId, String displayName) async {
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'txt', 'zip'],
+      allowCompression: true,
+    );
+    String docId = DateTime.now().microsecondsSinceEpoch.toString();
+    if (result != null) {
+      File file = File(result.files.single.path);
+      String fileName = result.files.single.name;
+      String extensions = result.files.single.extension;
+      FirebaseFirestore.instance
+          .collection("chatRoom")
+          .doc(widget._class.toString())
+          .collection(widget._class.toString())
+          .doc(arguments['subjectName'].toString().toLowerCase())
+          .collection(arguments['subjectName'].toString().toLowerCase())
+          .doc(docId)
+          .set(
+        {
+          'sender': userId,
+          'time': DateTime.now(),
+          'type': 'file',
+          'imageUrl': "",
+          'message': "",
+          'senderName': displayName,
+          'fileName': fileName,
+          'fileExtension': extensions
+        },
+      );
+
+      firebase_storage.TaskSnapshot taskSnapshot = await firebase_storage
+          .FirebaseStorage.instance
+          .ref('images/${DateTime.now()}')
+          .putFile(file);
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      print(downloadUrl);
+      FirebaseFirestore.instance
+          .collection("chatRoom")
+          .doc(widget._class.toString())
+          .collection(widget._class.toString())
+          .doc(arguments['subjectName'].toString().toLowerCase())
+          .collection(arguments['subjectName'].toString().toLowerCase())
+          .doc(docId)
+          .set(
+        {
+          'sender': userId,
+          'time': DateTime.now(),
+          'type': "file",
+          'imageUrl': downloadUrl,
+          'message': "",
+          'senderName': displayName,
+          'fileName': fileName,
+          'fileExtension': extensions
+        },
+      ).then((value) {});
+    } else {}
   }
 }
 
@@ -380,11 +455,10 @@ class MessageStream extends StatelessWidget {
               'senderName': doc['senderName'],
               'time': doc['time'].toDate(),
               'type': doc['type'],
-              'imageUrl': doc['type'] == "text"
-                  ? ""
-                  : doc['type'] == "image"
-                      ? doc['imageUrl']
-                      : ""
+              'imageUrl': doc['type'] == "text" ? "" : doc['imageUrl'],
+              'fileName': doc['type'] == 'file' ? doc['fileName'] : "",
+              'fileExtension':
+                  doc['type'] == 'file' ? doc['fileExtension'] : "",
             });
           });
           List<MessageBubble> messageBubbles = [];
@@ -396,6 +470,8 @@ class MessageStream extends StatelessWidget {
             String imageUrl = message['imageUrl'];
             String type = message['type'];
             String messageSenderName = message['senderName'];
+            String fileName = message['fileName'];
+            String fileExtension = message['fileExtension'];
             final messageBubble = MessageBubble(
               text: messageText,
               sender: messageSender,
@@ -404,6 +480,8 @@ class MessageStream extends StatelessWidget {
               imageUrl: imageUrl,
               type: type,
               senderName: messageSenderName,
+              fileName: fileName,
+              fileExtension: fileExtension,
             );
             messageBubbles.add(messageBubble);
           }
@@ -421,14 +499,19 @@ class MessageBubble extends StatelessWidget {
   final String imageUrl;
   final String type;
   final String senderName;
-  MessageBubble(
-      {this.text,
-      this.sender,
-      this.isMe,
-      this.time,
-      this.imageUrl,
-      this.type,
-      this.senderName});
+  final String fileName;
+  final String fileExtension;
+  MessageBubble({
+    this.text,
+    this.sender,
+    this.isMe,
+    this.time,
+    this.imageUrl,
+    this.type,
+    this.senderName,
+    this.fileName,
+    this.fileExtension,
+  });
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -490,38 +573,91 @@ class MessageBubble extends StatelessWidget {
                                         ),
                                       ),
                                     )
-                                  : GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              ImageView(imageUrl),
-                                        ));
-                                      },
-                                      child: Hero(
-                                        tag: imageUrl,
-                                        child: CachedNetworkImage(
-                                          imageUrl: imageUrl,
-                                          fit: BoxFit.fitWidth,
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Center(
-                                            child: Container(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                  value: downloadProgress
-                                                      .progress),
+                                  : ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5)),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                ImageView(imageUrl, senderName),
+                                          ));
+                                        },
+                                        child: Hero(
+                                          tag: imageUrl,
+                                          child: CachedNetworkImage(
+                                            imageUrl: imageUrl,
+                                            fit: BoxFit.fitWidth,
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                Center(
+                                              child: Container(
+                                                width: 20,
+                                                height: 20,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                        value: downloadProgress
+                                                            .progress),
+                                              ),
                                             ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
                                           ),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
                                         ),
                                       ),
                                     ),
                             )
-                          : Container(),
+                          : Container(
+                              width: screenWidth * 0.6,
+                              height: 40,
+                              child: imageUrl == ""
+                                  ? Center(
+                                      child: Container(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      ),
+                                    )
+                                  : InkWell(
+                                      onTap: () async {
+                                        print('dfdsfds');
+                                        Directory appDocDir =
+                                            await getTemporaryDirectory();
+                                        String appDocPath =
+                                            '${appDocDir.path}/${fileName}${DateTime.now().microsecondsSinceEpoch.toString()}.${fileExtension}';
+                                        ;
+                                        final taskId =
+                                            await FlutterDownloader.enqueue(
+                                          url: imageUrl,
+                                          showNotification: true,
+                                          fileName: fileName,
+                                          savedDir: appDocPath,
+                                          openFileFromNotification: true,
+                                        );
+                                      },
+                                      child: Container(
+                                          child: Row(
+                                        children: [
+                                          Image.asset(
+                                            fileExtension == 'pdf'
+                                                ? 'assets/pdf.png'
+                                                : fileExtension == 'txt'
+                                                    ? 'assets/txt.png'
+                                                    : fileExtension == 'zip'
+                                                        ? 'assets/zip.png'
+                                                        : '',
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text("$fileName")
+                                        ],
+                                      )),
+                                    ),
+                            ),
                   Padding(
                     padding: EdgeInsets.only(top: 5),
                     child: Text(

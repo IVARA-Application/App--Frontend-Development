@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:ivara_app/Starting_Animation/ui/views/home_view.dart';
 import 'package:ivara_app/teachers_app/academics.dart';
 import 'package:ivara_app/teachers_app/attendance.dart';
@@ -54,8 +55,12 @@ import 'package:ivara_app/students_app/drawer_part/Student_abroad/news_and_blogs
 import 'package:get/get.dart';
 import 'Binding.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(
+      debug: true // optional: set false to disable printing logs to console
+      );
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -71,12 +76,14 @@ class _MyAppState extends State<MyApp> {
   startTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool firstTime = prefs.getBool('first_time');
-    await new Future.delayed(const Duration(seconds : 5));
-    if (firstTime != null && !firstTime) {// Not first time
+    await new Future.delayed(const Duration(seconds: 5));
+    if (firstTime != null && !firstTime) {
+      // Not first time
       setState(() {
         home = HomePage();
       });
-    } else {// First time
+    } else {
+      // First time
       prefs.setBool('first_time', false);
       setState(() {
         home = HomeView();
@@ -93,27 +100,32 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialBinding: Binding(),
-      title: 'Ivara App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: home==null?SplashScreen(
-    seconds: 5,
-    navigateAfterSeconds: HomePage(),
-    title: Text(
-      'IVentors Initiatives',
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0,color:Colors.white),
-    ),
-    image: Image.asset(
-        './assets/logo_small.png'),
-    photoSize: 100.0,
-    backgroundColor: Color(0xFF076FA0),
-    loaderColor: Colors.white,
-    ):home,
-      routes: {
+        initialBinding: Binding(),
+        title: 'Ivara App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        debugShowCheckedModeBanner: false,
+        // home: home == null
+        //     ? SplashScreen(
+        //         seconds: 5,
+        //         navigateAfterSeconds: HomePage(),
+        //         title: Text(
+        //           'IVentors Initiatives',
+        //           style: TextStyle(
+        //               fontWeight: FontWeight.bold,
+        //               fontSize: 30.0,
+        //               color: Colors.white),
+        //         ),
+        //         image: Image.asset('./assets/logo_small.png'),
+        //         photoSize: 100.0,
+        //         backgroundColor: Color(0xFF076FA0),
+        //         loaderColor: Colors.white,
+        //       )
+        //     : home,
+        home: StudentHomePage(),
+        routes: {
           HomePage.id: (context) => HomePage(),
           LoginPage.id: (context) => LoginPage(),
           SignUpPage.id: (context) => SignUpPage(),
@@ -137,7 +149,6 @@ class _MyAppState extends State<MyApp> {
           AttendanceDetail.id: (context) => AttendanceDetail(),
           ParentConnect.id: (context) => ParentConnect(),
           HomeView.id: (context) => HomeView(),
-        }
-    );
+        });
   }
 }

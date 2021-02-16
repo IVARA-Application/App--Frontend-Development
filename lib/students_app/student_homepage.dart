@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:ivara_app/students_app/ARLab/arLab.dart';
 import 'package:ivara_app/students_app/academics/academics.dart';
 import 'package:ivara_app/students_app/attendance/attendance.dart';
 import 'package:ivara_app/students_app/dashboard/dashboard.dart';
@@ -18,7 +21,6 @@ class StudentHomePage extends StatefulWidget{
 
 class _StudentHomePageState extends State<StudentHomePage> {
   int index = 0;
-
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -246,7 +248,11 @@ class _StudentHomePageState extends State<StudentHomePage> {
                     Padding(
                       padding: EdgeInsets.only(top: screenHeight*0.02),
                       child: GestureDetector(
-                        onTap: ()=>{},
+                        onTap: ()async{
+                         Navigator.of(context).push(MaterialPageRoute(
+                           builder: (context)=>ARLab()
+                         ));
+                        },
                         child: Container(
                         width: screenWidth*0.8,
                         height: 140,
