@@ -18,6 +18,7 @@ import 'package:ivara_app/students_app/layout/sidebar.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image/image.dart' as Im;
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SubjectChatPage extends StatefulWidget {
@@ -626,19 +627,24 @@ class MessageBubble extends StatelessWidget {
                                   : InkWell(
                                       onTap: () async {
                                         print('dfdsfds');
-                                        Directory appDocDir =
-                                            await getTemporaryDirectory();
-                                        String appDocPath =
-                                            '${appDocDir.path}/${fileName}${DateTime.now().microsecondsSinceEpoch.toString()}.${fileExtension}';
-                                        ;
-                                        final taskId =
-                                            await FlutterDownloader.enqueue(
-                                          url: imageUrl,
-                                          showNotification: true,
-                                          fileName: fileName,
-                                          savedDir: appDocPath,
-                                          openFileFromNotification: true,
-                                        );
+
+                                        final status =
+                                            await Permission.storage.request();
+                                        if (status.isGranted) {
+                                          final externalDir =
+                                              await getExternalStorageDirectory();
+
+                                          final taskId =
+                                              await FlutterDownloader.enqueue(
+                                            url: imageUrl,
+                                            showNotification: true,
+                                            fileName: fileName,
+                                            savedDir: externalDir.path,
+                                            openFileFromNotification: true,
+                                          );
+                                        } else {
+                                          print("Permission Denied");
+                                        }
                                       },
                                       child: Container(
                                           child: Row(
@@ -653,7 +659,13 @@ class MessageBubble extends StatelessWidget {
                                                         : '',
                                           ),
                                           SizedBox(width: 5),
-                                          Text("$fileName")
+                                          Container(
+                                            width: MediaQuery.of(context).size.width*0.4,
+                                            child: Text(
+                                              "$fileName",
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          )
                                         ],
                                       )),
                                     ),

@@ -107,24 +107,24 @@ class _MyAppState extends State<MyApp> {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         debugShowCheckedModeBanner: false,
-        // home: home == null
-        //     ? SplashScreen(
-        //         seconds: 5,
-        //         navigateAfterSeconds: HomePage(),
-        //         title: Text(
-        //           'IVentors Initiatives',
-        //           style: TextStyle(
-        //               fontWeight: FontWeight.bold,
-        //               fontSize: 30.0,
-        //               color: Colors.white),
-        //         ),
-        //         image: Image.asset('./assets/logo_small.png'),
-        //         photoSize: 100.0,
-        //         backgroundColor: Color(0xFF076FA0),
-        //         loaderColor: Colors.white,
-        //       )
-        //     : home,
-        home: StudentHomePage(),
+        home: home == null
+            ? SplashScreen(
+                seconds: 5,
+                navigateAfterSeconds: HomePage(),
+                title: Text(
+                  'IVentors Initiatives',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30.0,
+                      color: Colors.white),
+                ),
+                image: Image.asset('./assets/logo_small.png'),
+                photoSize: 100.0,
+                backgroundColor: Color(0xFF076FA0),
+                loaderColor: Colors.white,
+              )
+            : home,
+        //home: StudentHomePage(),
         routes: {
           HomePage.id: (context) => HomePage(),
           LoginPage.id: (context) => LoginPage(),
