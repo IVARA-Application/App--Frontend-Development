@@ -249,9 +249,11 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       padding: EdgeInsets.only(top: screenHeight*0.02),
                       child: GestureDetector(
                         onTap: ()async{
-                         Navigator.of(context).push(MaterialPageRoute(
-                           builder: (context)=>ARLab()
-                         ));
+                        //  Navigator.of(context).push(MaterialPageRoute(
+                        //    builder: (context)=>ARLab()
+                        //  ));
+                        final channel = new MethodChannel("channel");
+                        await channel.invokeMethod("openUnityClass6");
                         },
                         child: Container(
                         width: screenWidth*0.8,
