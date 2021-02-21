@@ -28,13 +28,11 @@ class SignUpScreen extends GetWidget<FirebaseController> {
   var email;
   var phone_no;
   var password;
-  String role ;
+  String role;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Background(
         child: SingleChildScrollView(
@@ -63,24 +61,23 @@ class SignUpScreen extends GetWidget<FirebaseController> {
                   phone_no = value;
                 },
               ),
-              RoundedPasswordField(
-              ),
-              RoundedPasswordField2(
-
-              ),
+              RoundedPasswordField((val) {
+                password = val;
+              }),
+              RoundedPasswordField2(),
               SizedBox(height: size.height * 0.02),
               CheckboxListTile(
-                  activeColor: Theme
-                      .of(context)
-                      .accentColor,
-                  title: Text('   I agree with all terms and conditions'
-                    , style: TextStyle(
+                  activeColor: Theme.of(context).accentColor,
+                  title: Text(
+                    '   I agree with all terms and conditions',
+                    style: TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.w400,
                       fontSize: 16,
                     ),
                   ),
-                  value: false, onChanged: null),
+                  value: false,
+                  onChanged: null),
               SizedBox(height: size.height * 0.02),
               AlreadyHaveAnAccountCheck2(
                 press: () {
@@ -100,12 +97,12 @@ class SignUpScreen extends GetWidget<FirebaseController> {
                 press: () {
                   if (page == 'Parent') {
                     controller.createUser(user_name, email, password, "Parent");
-                  }
-                  else if (page == 'Student') {
-                    controller.createUser(user_name, email, password, "Student");
-                  }
-                  else {
-                    controller.createUser(user_name, email, password, "Teacher");
+                  } else if (page == 'Student') {
+                    controller.createUser(
+                        user_name, email, password, "Student");
+                  } else {
+                    controller.createUser(
+                        user_name, email, password, "Teacher");
                   }
                 },
               ),
