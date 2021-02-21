@@ -272,7 +272,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                         child: Column(
                           children: <Widget>[
                             Padding(
-                                padding: EdgeInsets.symmetric(vertical:screenHeight*0.068),
+                                padding: EdgeInsets.only(top:screenHeight*0.068),
                               child: Text(
                                 "AR LAB",
                                 style: TextStyle(fontSize: screenHeight*0.025, color: Colors.white),

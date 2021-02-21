@@ -64,12 +64,9 @@ class SignUpScreen extends GetWidget<FirebaseController> {
                 },
               ),
               RoundedPasswordField(
-                onChanged: (value) {
-                  password = value;
-                },
               ),
               RoundedPasswordField2(
-                onChanged: (value) {},
+
               ),
               SizedBox(height: size.height * 0.02),
               CheckboxListTile(

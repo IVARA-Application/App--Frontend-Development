@@ -48,9 +48,6 @@ class Loginpage2 extends GetWidget<FirebaseController> {
               },
             ),
             RoundedPasswordField(
-              onChanged: (value) {
-                password=value;
-              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(

@@ -8,6 +8,24 @@ import 'package:ivara_app/students_app/drawer_part/Student_abroad/news_and_blogs
 
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:ivara_app/students_app/layout/sidebar.dart';
+import 'package:ivara_app/students_app/drawer_part/Doubt_portal/doubt_help.dart';
+import 'package:ivara_app/students_app/drawer_part/Entrance_preparation/Entrance_exams.dart';
+import 'package:ivara_app/students_app/drawer_part/Skill_development/skilldevelopment.dart';
+import 'package:ivara_app/students_app/drawer_part/Student_abroad/Study_abroad_help.dart';
+import 'package:ivara_app/students_app/drawer_part/Student_personal_details/studentpersonal.dart';
+import 'package:ivara_app/students_app/drawer_part/Healmymind/schedule_a_call.dart';
+import 'package:ivara_app/students_app/drawer_part/Student_abroad/Courses_available.dart';
+import 'package:ivara_app/students_app/drawer_part/Student_abroad/Scholarships.dart';
+import 'package:ivara_app/students_app/drawer_part/Student_abroad/news_and_blogs.dart';
+import 'package:ivara_app/students_app/drawer_part/Healmymind/Heal_my_mind.dart';
+import 'package:ivara_app/students_app/drawer_part/Healmymind/chat_to_counsellor.dart';
+import 'package:ivara_app/students_app/drawer_part/Healmymind/heal_my_mind_videos.dart';
+import 'package:ivara_app/Parents_app/Parents_attendance/p_attendance.dart';
+import 'package:ivara_app/Parents_app/Parents_homepage.dart';
+
+import 'Courses_available.dart';
+import 'Scholarships.dart';
+import 'news_and_blogs.dart';
 
 
 
@@ -80,7 +98,7 @@ class _StudyAbroadHelpPageState extends State<StudyAbroadHelpPage> {
                 ),
                 child: GestureDetector(
                   onTap: () => {
-                    Navigator.pushNamed(context, CoursesAvailablePage.id)
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CoursesAvailablePage()))
                   },
                   child: Container(
                       width: screenWidth,
@@ -117,7 +135,7 @@ class _StudyAbroadHelpPageState extends State<StudyAbroadHelpPage> {
                 ),
                 child: GestureDetector(
                   onTap: () => {
-                    Navigator.pushNamed(context, ScholarshipsPage.id)
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ScholarshipsPage()))
                   },
                   child: Container(
                       width: screenWidth,
@@ -154,7 +172,7 @@ class _StudyAbroadHelpPageState extends State<StudyAbroadHelpPage> {
                 ),
                 child: GestureDetector(
                   onTap: () => {
-                    Navigator.pushNamed(context, NewsandblogsPage.id)
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => NewsandblogsPage()))
                   },
                   child: Container(
                       width: screenWidth,

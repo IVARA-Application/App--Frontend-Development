@@ -3,9 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:ivara_app/students_app/drawer_part/Healmymind/schedule_a_call.dart';
 import 'package:ivara_app/students_app/notification.dart';
 import 'chat_to_counsellor.dart';
+import 'chat_to_counsellor.dart';
 import 'heal_my_mind_videos.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:ivara_app/students_app/layout/sidebar.dart';
+import 'package:ivara_app/students_app/drawer_part/Doubt_portal/doubt_help.dart';
+import 'package:ivara_app/students_app/drawer_part/Entrance_preparation/Entrance_exams.dart';
+import 'package:ivara_app/students_app/drawer_part/Skill_development/skilldevelopment.dart';
+import 'package:ivara_app/students_app/drawer_part/Student_abroad/Study_abroad_help.dart';
+import 'package:ivara_app/students_app/drawer_part/Student_personal_details/studentpersonal.dart';
+import 'package:ivara_app/students_app/drawer_part/Healmymind/schedule_a_call.dart';
+import 'package:ivara_app/students_app/drawer_part/Student_abroad/Courses_available.dart';
+import 'package:ivara_app/students_app/drawer_part/Student_abroad/Scholarships.dart';
+import 'package:ivara_app/students_app/drawer_part/Student_abroad/news_and_blogs.dart';
+import 'package:ivara_app/students_app/drawer_part/Healmymind/Heal_my_mind.dart';
+import 'package:ivara_app/students_app/drawer_part/Healmymind/chat_to_counsellor.dart';
+import 'package:ivara_app/students_app/drawer_part/Healmymind/heal_my_mind_videos.dart';
+import 'package:ivara_app/Parents_app/Parents_attendance/p_attendance.dart';
+import 'package:ivara_app/Parents_app/Parents_homepage.dart';
+
+import 'heal_my_mind_videos.dart';
+import 'schedule_a_call.dart';
 
 class HealMyMindPage extends StatefulWidget{
   static String id = 'HealMyMindPage';
@@ -73,7 +91,7 @@ class _HealMyMindPageState extends State<HealMyMindPage> {
                 ),
                 child: GestureDetector(
                   onTap: () => {
-                    Navigator.pushNamed(context, ChatToCounsellorPage.id)
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ChatToCounsellorPage()))
                   },
                   child: Container(
                       width: screenWidth,
@@ -110,7 +128,7 @@ class _HealMyMindPageState extends State<HealMyMindPage> {
                 ),
                 child: GestureDetector(
                   onTap: () => {
-                    Navigator.pushNamed(context, ScheduleCallPage.id)
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleCallPage()))
                   },
                   child: Container(
                       width: screenWidth,
@@ -147,7 +165,7 @@ class _HealMyMindPageState extends State<HealMyMindPage> {
                 ),
                 child: GestureDetector(
                   onTap: () => {
-                    Navigator.pushNamed(context, HealMyMindVideosPage.id)
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HealMyMindVideosPage()))
                   },
                   child: Container(
                       width: screenWidth,
