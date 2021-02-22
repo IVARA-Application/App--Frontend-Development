@@ -68,7 +68,7 @@ class _CoursesAvailablePageState extends State<CoursesAvailablePage> {
                       child: Column(
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.all(screenHeight*0.056),
+                            padding: EdgeInsets.only(top:screenHeight*0.056),
                             child: Text(
                               'TECH COURSES',
                               style: TextStyle(fontSize: 20, color: Colors.white),

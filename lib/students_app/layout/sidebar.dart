@@ -6,7 +6,7 @@ import 'package:ivara_app/students_app/drawer_part/Skill_development/skilldevelo
 import 'package:ivara_app/students_app/drawer_part/Student_abroad/Study_abroad_help.dart';
 import 'package:ivara_app/students_app/drawer_part/Student_personal_details/studentpersonal.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-
+import 'package:ivara_app/students_app/drawer_part/vTution/virtualTution.dart';
 import 'package:ivara_app/students_app/drawer_part/Doubt_portal/doubt_help.dart';
 import 'package:ivara_app/students_app/drawer_part/Entrance_preparation/Entrance_exams.dart';
 import 'package:ivara_app/students_app/drawer_part/Skill_development/skilldevelopment.dart';
@@ -92,6 +92,7 @@ class MyDrawer extends StatelessWidget {
                 }),
             CustomListTile(
                 LineAwesomeIcons.ios_app_store, 'Skill Development', () => {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SkilldevelopmentPage()))
                 }),
             CustomListTile(
                 LineAwesomeIcons.comment_dollar, 'Entrance Preparation', () => {
@@ -104,6 +105,7 @@ class MyDrawer extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => StudentPersonalPage()))
                 }),
             CustomListTile(LineAwesomeIcons.question, 'Virtual Tutions', () => {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => VirtualTutionPage()))
                 }),
           ],
         ),
