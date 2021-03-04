@@ -6,6 +6,7 @@ import 'package:ivara_app/Login/login.dart';
 import 'package:ivara_app/Parents_app/Parents_homepage.dart';
 import 'package:ivara_app/students_app/student_homepage.dart';
 import 'package:ivara_app/teachers_app/dashboard.dart';
+import 'package:ivara_app/useful_components/Checkbox.dart';
 import 'package:ivara_app/useful_components/have_account2.dart';
 import 'package:ivara_app/useful_components/round_button.dart';
 import 'package:ivara_app/useful_components/round_field.dart';
@@ -29,6 +30,7 @@ class SignUpScreen extends GetWidget<FirebaseController> {
   var phone_no;
   var password;
   String role;
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -66,18 +68,7 @@ class SignUpScreen extends GetWidget<FirebaseController> {
               }),
               RoundedPasswordField2(),
               SizedBox(height: size.height * 0.02),
-              CheckboxListTile(
-                  activeColor: Theme.of(context).accentColor,
-                  title: Text(
-                    '   I agree with all terms and conditions',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                    ),
-                  ),
-                  value: false,
-                  onChanged: null),
+              Checkboxsignup(),
               SizedBox(height: size.height * 0.02),
               AlreadyHaveAnAccountCheck2(
                 press: () {
@@ -93,7 +84,7 @@ class SignUpScreen extends GetWidget<FirebaseController> {
               ),
               SizedBox(height: size.height * 0.02),
               RoundedButton(
-                text: "REGISTER",
+               text: "REGISTER" ,
                 press: () {
                   if (page == 'Parent') {
                     controller.createUser(user_name, email, password, "Parent");
@@ -112,4 +103,6 @@ class SignUpScreen extends GetWidget<FirebaseController> {
       ),
     );
   }
+
+
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ivara_app/teachers_app/previousAttendance.dart';
 
 class Attendance extends StatefulWidget {
   static String id = 'Attendance';
@@ -92,7 +93,7 @@ class _AttendanceState extends State<Attendance> {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
       body: SafeArea(
@@ -106,11 +107,23 @@ class _AttendanceState extends State<Attendance> {
                       horizontal: screenHeight * 0.04,
                       vertical: screenHeight * 0.02),
                   child: Center(
-                    child: Text('Attendance List',
-                        style: TextStyle(
-                            fontSize: screenHeight * 0.05,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Attendance List',
+                            style: TextStyle(
+                                fontSize: screenHeight * 0.05,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400)),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(context,MaterialPageRoute(builder: (context)=>PreviousAttendance()));
+                          },
+                          icon: Icon(Icons.event,color: Colors.white,),
+                          iconSize: screenHeight * 0.05,
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
@@ -119,37 +132,39 @@ class _AttendanceState extends State<Attendance> {
                     tag: "Container",
                     child: Material(
                       color: Colors.transparent,
-                                          child: Container(
+                      child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(screenHeight * 0.04),
-                                  topLeft: Radius.circular(screenHeight * 0.04)),
+                                  topRight:
+                                      Radius.circular(screenHeight * 0.04),
+                                  topLeft:
+                                      Radius.circular(screenHeight * 0.04)),
                               color: Colors.white),
                           child: Column(
                             children: [
                               SizedBox(height: screenHeight * 0.05),
                               Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.05),
-                                  child: Row(
-                                    children: [
-                                      Text('STUDENT NAME',
-                                          style: TextStyle(
-                                              fontSize: screenHeight * 0.028,
-                                              fontWeight: FontWeight.w800,
-                                              color: blue)),
-                                      Spacer(),
-                                      Text('ATTENDANCE',
-                                          style: TextStyle(
-                                              fontSize: screenHeight * 0.028,
-                                              fontWeight: FontWeight.w800,
-                                              color: blue)),
-                                    ],
-                                  ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.05),
+                                child: Row(
+                                  children: [
+                                    Text('STUDENT NAME',
+                                        style: TextStyle(
+                                            fontSize: screenHeight * 0.028,
+                                            fontWeight: FontWeight.w800,
+                                            color: blue)),
+                                    Spacer(),
+                                    Text('ATTENDANCE',
+                                        style: TextStyle(
+                                            fontSize: screenHeight * 0.028,
+                                            fontWeight: FontWeight.w800,
+                                            color: blue)),
+                                  ],
                                 ),
+                              ),
                               Expanded(
-                                child:
-                                    getAttendanceList(screenHeight, screenWidth),
+                                child: getAttendanceList(
+                                    screenHeight, screenWidth),
                               ),
                             ],
                           )),

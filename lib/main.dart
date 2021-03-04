@@ -111,7 +111,7 @@ class _MyAppState extends State<MyApp> {
                 loaderColor: Colors.white,
               )
             : home,
-        //home: StudentHomePage(),
+        // home: StudentHomePage(),
         routes: {
           HomePage.id: (context) => HomePage(),
           LoginPage.id: (context) => LoginPage(),

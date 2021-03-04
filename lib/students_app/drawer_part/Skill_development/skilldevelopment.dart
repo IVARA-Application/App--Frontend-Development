@@ -6,6 +6,7 @@ import 'package:ivara_app/students_app/attendance/attendance.dart';
 import 'package:ivara_app/students_app/dashboard/dashboard.dart';
 import 'package:ivara_app/students_app/layout/main_drawer.dart';
 import 'package:ivara_app/students_app/notification.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 
 class SkilldevelopmentPage extends StatefulWidget{
@@ -21,135 +22,179 @@ class _SkilldevelopmentPageState extends State<SkilldevelopmentPage> {
 
   @override
   Widget build(BuildContext context) {
+    int index = 0;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: AppBar(
-          title: Text("STUDENT DEVELOPMENT"),
-          backgroundColor: Colors.lightBlue,
-          actions: <Widget>[
-            Row(
-              children: <Widget>[
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context)=>NotificationPage()));
-
-                  },
-                  icon: Stack(
-                    children: <Widget>[
-                      Icon(Icons.notifications,
-                          color: Colors.white),
-                      Positioned(
-                        left: 16.0,
-                        child: Icon(Icons.brightness_1,
-                          color: Colors.red,
-                          size: 9.0,
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            )
-          ],
+      appBar: AppBar(
+        backgroundColor: Color(0xff0772a0),
+        centerTitle: true,
+        elevation: 1.0,
+        title: Text('COURSES',
+        style: TextStyle(color: Colors.white, fontSize: 20),
         ),
-        drawer: MainDrawer(),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(LineAwesomeIcons.bell),
+            color: Colors.white,
+            highlightColor: Colors.white,
+            onPressed: () {
+              Navigator.pushNamed(context, NotificationPage.id);
+            },
+          )
+        ],
+      ),
 
         body: Container(
           child: ListView(
             children: <Widget>[
-              SizedBox(height: 40),
-              SizedBox(height: 40),
-              SizedBox(height: 40),
-              RaisedButton(
-                  elevation: 10.0,
-                  highlightElevation: 10.0,
-                  padding: EdgeInsets.symmetric(vertical: 25.0,horizontal: 5.0),
-                  onPressed: () {
-                  //  Navigator.push(context,MaterialPageRoute(builder: (context)=>CoursesAvailablePage()));
+              Padding(
+                padding: EdgeInsets.only(
+                  top: screenHeight * 0.08,
+                  left: screenWidth * 0.06,
+                  right: screenWidth * 0.06,
+                ),
+                child: GestureDetector(
+                  onTap: () => {
                   },
-                  color: Colors.blue,
-                  child: Text(
-                    'TECH COURSES',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                    ),
-                  ),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0))),
-              SizedBox(height: 40),
-              SizedBox(height: 40),
-              RaisedButton(
-
-                  elevation: 10.0,
-                  highlightElevation: 10.0,
-                  padding: EdgeInsets.symmetric(vertical: 25.0,horizontal: 5.0),
-                  onPressed: () {
-                  //  Navigator.push(context,MaterialPageRoute(builder: (context)=>ScholarshipsPage()));
+                  child: Container(
+                      width: screenWidth,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Color(0xff0772a0),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 10.0,
+                            spreadRadius: 6.0,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(top:screenHeight*0.056),
+                            child: Text(
+                              'TECH COURSES',
+                              style: TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                          )
+                        ],
+                      )),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: screenHeight * 0.08,
+                  left: screenWidth * 0.06,
+                  right: screenWidth * 0.06,
+                ),
+                child: GestureDetector(
+                  onTap: () => {
                   },
-                  color: Colors.blue,
-                  child: Text(
-                    'NON TECH COURSES',
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white),
-                  ),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0))),
-              SizedBox(height: 40),
-              SizedBox(height: 40),
-              RaisedButton(
-                  elevation: 10.0,
-                  highlightElevation: 10.0,
-                  padding: EdgeInsets.symmetric(vertical: 25.0,horizontal: 5.0),
-                  onPressed: () {
-                //    Navigator.push(context,MaterialPageRoute(builder: (context)=>NewsandblogsPage()));
+                  child: Container(
+                      width: screenWidth,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Color(0xff0772a0),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 10.0,
+                            spreadRadius: 6.0,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(top:screenHeight*0.056),
+                            child: Text(
+                              'NON TECH COURSES',
+                              style: TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                          )
+                        ],
+                      )),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: screenHeight * 0.08,
+                  left: screenWidth * 0.06,
+                  right: screenWidth * 0.06,
+                ),
+                child: GestureDetector(
+                  onTap: () => {
                   },
-                  color: Colors.blue,
-                  child: Text(
-                    'MANAGEMENT COURSES',
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white),
-                  ),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0))),
-              SizedBox(height: 40),
-              SizedBox(height: 40),
-              RaisedButton(
-                  elevation: 10.0,
-                  highlightElevation: 10.0,
-                  padding: EdgeInsets.symmetric(vertical: 25.0,horizontal: 5.0),
-                  onPressed: () {
-                   // Navigator.push(context,MaterialPageRoute(builder: (context)=>NewsandblogsPage()));
+                  child: Container(
+                      width: screenWidth,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Color(0xff0772a0),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 10.0,
+                            spreadRadius: 6.0,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(top:screenHeight*0.056),
+                            child: Text(
+                              'MANAGEMENT COURSES',
+                              style: TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                          )
+                        ],
+                      )),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: screenHeight * 0.08,
+                  left: screenWidth * 0.06,
+                  right: screenWidth * 0.06,
+                ),
+                child: GestureDetector(
+                  onTap: () => {
                   },
-                  color: Colors.blue,
-                  child: Text(
-                    'ACTIVITIES',
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white),
-                  ),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0))),
-              SizedBox(height: 40),
-              SizedBox(height: 40),
-              RaisedButton(
-                  elevation: 10.0,
-                  highlightElevation: 10.0,
-                  padding: EdgeInsets.symmetric(vertical: 25.0,horizontal: 5.0),
-                  onPressed: () {
-                    // Navigator.push(context,MaterialPageRoute(builder: (context)=>NewsandblogsPage()));
-                  },
-                  color: Colors.blue,
-                  child: Text(
-                    'MEDICAL',
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white),
-                  ),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0))),
-
+                  child: Container(
+                      width: screenWidth,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Color(0xff0772a0),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 10.0,
+                            spreadRadius: 6.0,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(top:screenHeight*0.056),
+                            child: Text(
+                              'ACTIVITIES',
+                              style: TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                          )
+                        ],
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              )
             ],
 
 
@@ -161,4 +206,3 @@ class _SkilldevelopmentPageState extends State<SkilldevelopmentPage> {
 
   }
 }
-
