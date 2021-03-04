@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ivara_app/teachers_app/attendance.dart';
 import 'package:ivara_app/teachers_app/classroom.dart';
 import 'package:ivara_app/teachers_app/doubtPortal.dart';
+import 'package:ivara_app/teachers_app/doubtPortalClassList.dart';
 import 'package:ivara_app/teachers_app/entermarks.dart';
 import 'package:ivara_app/teachers_app/profile.dart';
 
@@ -178,8 +179,12 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
                                       borderRadius: new BorderRadius.circular(
                                           screenHeight * 0.015)),
                                   onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, DoubtPortal.id);
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DoubtPortalClassList(),
+                                      ),
+                                    );
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(

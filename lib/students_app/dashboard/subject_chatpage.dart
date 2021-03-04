@@ -54,6 +54,12 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     final arguments = ModalRoute.of(context).settings.arguments as Map;
     print(arguments['subjectName']);
+    CollectionReference chatRoomReference = FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(widget._class.toString())
+        .collection(widget._class.toString())
+        .doc(arguments['subjectName'].toString().toLowerCase())
+        .collection(arguments['subjectName'].toString().toLowerCase());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff0772a0),
@@ -104,7 +110,7 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      MessageStream(arguments, widget._class,
+                      MessageStream(chatRoomReference, widget._class,
                           controller.firebaseUser.value.uid.toString()),
                       Padding(
                         padding: EdgeInsets.symmetric(
@@ -177,7 +183,7 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
                                             color: Color(0xff0772a0)),
                                         onPressed: () {
                                           sendImageMessage(
-                                              arguments,
+                                              chatRoomReference,
                                               controller.firebaseUser.value.uid
                                                   .toString(),
                                               controller
@@ -190,7 +196,7 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
                                             color: Color(0xff0772a0)),
                                         onPressed: () async {
                                           sendFiles(
-                                              arguments,
+                                              chatRoomReference,
                                               controller.firebaseUser.value.uid
                                                   .toString(),
                                               controller
@@ -218,7 +224,7 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
                                         .trim()
                                         .isNotEmpty) {
                                       sendTextMessage(
-                                        arguments,
+                                        chatRoomReference,
                                         controller.firebaseUser.value.uid
                                             .toString(),
                                         controller.firebaseUser.value.email,
@@ -282,16 +288,11 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
     );
   }
 
-  void sendTextMessage(arguments, String userId, String displayName) {
+  void sendTextMessage(CollectionReference chatRoomReference, String userId,
+      String displayName) {
     String message = messageController.text;
     messageController.text = "";
-    FirebaseFirestore.instance
-        .collection("chatRoom")
-        .doc(widget._class.toString())
-        .collection(widget._class.toString())
-        .doc(arguments['subjectName'].toString().toLowerCase())
-        .collection(arguments['subjectName'].toString().toLowerCase())
-        .add(
+    chatRoomReference.add(
       {
         'sender': userId,
         'message': message,
@@ -302,19 +303,13 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
     ).then((value) {});
   }
 
-  void sendImageMessage(arguments, String userId, String displayName) async {
+  void sendImageMessage(CollectionReference chatRoomReference, String userId,
+      String displayName) async {
     PickedFile selected =
         await _picker.getImage(source: ImageSource.camera, imageQuality: 70);
     if (selected != null) {
       String docId = DateTime.now().toString();
-      FirebaseFirestore.instance
-          .collection("chatRoom")
-          .doc(widget._class.toString())
-          .collection(widget._class.toString())
-          .doc(arguments['subjectName'].toString().toLowerCase())
-          .collection(arguments['subjectName'].toString().toLowerCase())
-          .doc(docId)
-          .set(
+      chatRoomReference.doc(docId).set(
         {
           'sender': userId,
           'time': DateTime.now(),
@@ -331,14 +326,7 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
           .putFile(new File(selected.path));
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
       print(downloadUrl);
-      FirebaseFirestore.instance
-          .collection("chatRoom")
-          .doc(widget._class.toString())
-          .collection(widget._class.toString())
-          .doc(arguments['subjectName'].toString().toLowerCase())
-          .collection(arguments['subjectName'].toString().toLowerCase())
-          .doc(docId)
-          .set(
+      chatRoomReference.doc(docId).set(
         {
           'sender': userId,
           'time': DateTime.now(),
@@ -351,7 +339,8 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
     }
   }
 
-  void sendFiles(arguments, String userId, String displayName) async {
+  void sendFiles(CollectionReference chatRoomReference, String userId,
+      String displayName) async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
@@ -363,14 +352,7 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
       File file = File(result.files.single.path);
       String fileName = result.files.single.name;
       String extensions = result.files.single.extension;
-      FirebaseFirestore.instance
-          .collection("chatRoom")
-          .doc(widget._class.toString())
-          .collection(widget._class.toString())
-          .doc(arguments['subjectName'].toString().toLowerCase())
-          .collection(arguments['subjectName'].toString().toLowerCase())
-          .doc(docId)
-          .set(
+      chatRoomReference.doc(docId).set(
         {
           'sender': userId,
           'time': DateTime.now(),
@@ -389,14 +371,7 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
           .putFile(file);
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
       print(downloadUrl);
-      FirebaseFirestore.instance
-          .collection("chatRoom")
-          .doc(widget._class.toString())
-          .collection(widget._class.toString())
-          .doc(arguments['subjectName'].toString().toLowerCase())
-          .collection(arguments['subjectName'].toString().toLowerCase())
-          .doc(docId)
-          .set(
+      chatRoomReference.doc(docId).set(
         {
           'sender': userId,
           'time': DateTime.now(),
@@ -413,22 +388,14 @@ class _SubjectChatPageState extends State<SubjectChatPage> {
 }
 
 class MessageStream extends StatelessWidget {
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  Map<String, String> aruments;
+  CollectionReference chatRoomReference;
   int _class;
   String userId;
-  MessageStream(this.aruments, this._class, this.userId);
+  MessageStream(this.chatRoomReference, this._class, this.userId);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: firebaseFirestore
-            .collection("chatRoom")
-            .doc(_class.toString())
-            .collection(_class.toString())
-            .doc(aruments['subjectName'].toLowerCase())
-            .collection(aruments['subjectName'].toLowerCase())
-            .orderBy('time', descending: true)
-            .snapshots(),
+        stream: chatRoomReference.orderBy('time', descending: true).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Expanded(
@@ -660,10 +627,18 @@ class MessageBubble extends StatelessWidget {
                                           ),
                                           SizedBox(width: 5),
                                           Container(
-                                            width: MediaQuery.of(context).size.width*0.4,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
                                             child: Text(
                                               "$fileName",
                                               overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: isMe
+                                                    ? Colors.black
+                                                    : Colors.white,
+                                              ),
                                             ),
                                           )
                                         ],
