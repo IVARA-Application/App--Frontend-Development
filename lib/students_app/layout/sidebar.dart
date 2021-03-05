@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ivara_app/students_app/drawer_part/Doubt_portal/doubt_help.dart';
+import 'package:ivara_app/students_app/drawer_part/EBooks/eBooks.dart';
 import 'package:ivara_app/students_app/drawer_part/Entrance_preparation/Entrance_exams.dart';
 import 'package:ivara_app/students_app/drawer_part/Healmymind/Heal_my_mind.dart';
 import 'package:ivara_app/students_app/drawer_part/Skill_development/skilldevelopment.dart';
@@ -42,7 +43,7 @@ class MyDrawer extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             Container(
-              height: screenHeight*0.371,
+              height: screenHeight * 0.371,
               child: DrawerHeader(
                 decoration: BoxDecoration(color: Colors.white),
                 child: Padding(
@@ -52,17 +53,14 @@ class MyDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(
-                          top: screenHeight*0.0
-                        ),
+                        padding: EdgeInsets.only(top: screenHeight * 0.0),
                         child: Container(
-                          height: screenHeight*0.29,
-                          width: screenHeight*0.29,
+                          height: screenHeight * 0.29,
+                          width: screenHeight * 0.29,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('assets/icon/logo_small.png'),
-                              fit: BoxFit.fill
-                            ),
+                                image: AssetImage('assets/icon/logo_small.png'),
+                                fit: BoxFit.fill),
                           ),
                         ),
                       ),
@@ -71,11 +69,15 @@ class MyDrawer extends StatelessWidget {
                       ),
                       Text(
                         'Aman, B.Tech Third Year',
-                        style: TextStyle(color: Color(0xff0772a0), fontSize: 15),
+                        style:
+                            TextStyle(color: Color(0xff0772a0), fontSize: 15),
                       ),
                       Flexible(
                         flex: 1,
-                        child: Container(color: Color(0xff0772a0),height: 3,),
+                        child: Container(
+                          color: Color(0xff0772a0),
+                          height: 3,
+                        ),
                       ),
                     ],
                   ),
@@ -83,30 +85,76 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             CustomListTile(
-              LineAwesomeIcons.home, 'HealMymind', () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HealMyMindPage()))
-              },),
+              LineAwesomeIcons.home,
+              'HealMymind',
+              () => {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HealMyMindPage()))
+              },
+            ),
             CustomListTile(
-                LineAwesomeIcons.rocket_chat, 'Study Abroad Support', () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => StudyAbroadHelpPage()))
-                }),
+                LineAwesomeIcons.rocket_chat,
+                'Study Abroad Support',
+                () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StudyAbroadHelpPage()))
+                    }),
             CustomListTile(
-                LineAwesomeIcons.ios_app_store, 'Skill Development', () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SkilldevelopmentPage()))
-                }),
+                LineAwesomeIcons.ios_app_store,
+                'Skill Development',
+                () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SkilldevelopmentPage()))
+                    }),
             CustomListTile(
-                LineAwesomeIcons.comment_dollar, 'Entrance Preparation', () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => EntranceExamsPage()))
-                }),
-            CustomListTile(LineAwesomeIcons.question, '24 X 7 Doubt Portal', () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DoubtHelpPage()))
-                }),
-            CustomListTile(LineAwesomeIcons.question, 'Student Personal Details', () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => StudentPersonalPage()))
-                }),
-            CustomListTile(LineAwesomeIcons.question, 'Virtual Tutions', () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => VirtualTutionPage()))
-                }),
+                LineAwesomeIcons.comment_dollar,
+                'Entrance Preparation',
+                () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EntranceExamsPage()))
+                    }),
+            CustomListTile(
+                LineAwesomeIcons.question,
+                '24 X 7 Doubt Portal',
+                () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DoubtHelpPage()))
+                    }),
+            CustomListTile(
+                LineAwesomeIcons.question,
+                'Student Personal Details',
+                () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StudentPersonalPage()))
+                    }),
+            CustomListTile(
+                LineAwesomeIcons.question,
+                'Virtual Tutions',
+                () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VirtualTutionPage()))
+                    }),
+            CustomListTile(
+                LineAwesomeIcons.question,
+                'E Books',
+                () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EBooks()))
+                    }),
           ],
         ),
       ),
@@ -126,8 +174,7 @@ class CustomListTile extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: Container(
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Color(0xff0772a0)))
-        ),
+            border: Border(bottom: BorderSide(color: Color(0xff0772a0)))),
         child: InkWell(
           splashColor: Color(0xff0772a0),
           onTap: onTap,
@@ -142,7 +189,8 @@ class CustomListTile extends StatelessWidget {
                       padding: EdgeInsets.all(8),
                       child: Text(
                         text,
-                        style: TextStyle(fontSize: 21,color: Color(0xff0772a0)),
+                        style:
+                            TextStyle(fontSize: 21, color: Color(0xff0772a0)),
                       ),
                     )
                   ],
